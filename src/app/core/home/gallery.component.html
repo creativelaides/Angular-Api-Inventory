@@ -1,0 +1,13 @@
+<h2>Inventory</h2>
+<div class="row row-cols-1 row-cols-md-4 g-4"> <!-- Cambié 'col-md-4' por 'row-cols-md-4' para hacerlo más flexible -->
+    <div *ngFor="let product of products" class="col">
+        <div class="card h-100"> <!-- Asegura que la tarjeta se estire para que las imágenes y texto se ajusten bien -->
+            <img class="card-img-top" [src]="product.imageUrl" alt="Product Image">
+            <div class="card-body">
+                <h5 class="card-title">{{ product.name }}</h5>
+                <p class="card-text">{{ product.description }}</p>
+                <a href="#" class="btn btn-primary" (click)="addToCart(product)">Add to Cart</a>
+            </div>
+        </div>
+    </div>
+</div>

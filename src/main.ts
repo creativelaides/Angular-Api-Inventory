@@ -1,6 +1,11 @@
 import { bootstrapApplication } from '@angular/platform-browser';
-import { appConfig } from './app/app.config';
 import { AppComponent } from './app/app.component';
+import { appRoutes } from './app/app.routes';  // Importa el array de rutas
+import { provideRouter } from '@angular/router';  // Usar provideRouter para configurar las rutas
 
-bootstrapApplication(AppComponent, appConfig)
+bootstrapApplication(AppComponent, {
+  providers: [
+    provideRouter(appRoutes),  // Pasa directamente el array de rutas
+  ]
+})
   .catch((err) => console.error(err));
