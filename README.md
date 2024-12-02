@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # InventoryApp
 
 This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 19.0.2.
@@ -57,3 +58,7 @@ Angular CLI does not come with an end-to-end testing framework by default. You c
 ## Additional Resources
 
 For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+=======
+# Angular-Api-Inventory
+Este proyecto es una aplicación web de gestión de inventarios, diseñada para facilitar la administración de productos en un entorno empresarial. Está construido utilizando tecnologías modernas y ofrece una interfaz intuitiva para gestionar los datos relacionados con productos, categorías y proveedores.
+>>>>>>> e4fc674cda0a65edcfafcd42bd0898e88cc689f1
