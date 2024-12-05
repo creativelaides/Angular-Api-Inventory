@@ -1,6 +1,5 @@
-import { Component } from '@angular/core';
-import { ApiService } from '../../shared/services/api.service';
-import { Product } from '../../shared/models/product';
+import { Component, OnInit } from '@angular/core';
+import { CartService } from '../../shared/services/cart.service';
 import { SHARED_MODULES } from '../../shared/modules/shared';
 
 @Component({
@@ -8,16 +7,24 @@ import { SHARED_MODULES } from '../../shared/modules/shared';
   selector: 'app-cart',
   templateUrl: './cart.component.html',
 })
-export class CartComponent {
-  cart: Product[] = [];
+export class CartComponent implements OnInit {
+  cartItems: any[] = [];
+  cartTotal: number = 0;
 
-  constructor(private apiService: ApiService) { }
+  constructor(private cartService: CartService) {}
 
-  getCartItems() {
-    // Aquí se podría agregar lógica para obtener los productos del carrito si se almacena de forma persistente
+  ngOnInit() {
+    this.cartService.cartItems$.subscribe(items => {
+      this.cartItems = items;
+      this.cartTotal = this.cartService.getCartTotal();
+    });
   }
 
-  removeFromCart(product: Product) {
-    this.cart = this.cart.filter((item) => item.id !== product.id);
+  removeFromCart(productId: number) {
+    this.cartService.removeFromCart(productId);
+  }
+
+  clearCart() {
+    this.cartService.clearCart();
   }
 }
