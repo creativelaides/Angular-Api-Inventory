@@ -1,12 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common';  // Importar CommonModule
-import { FormsModule } from '@angular/forms'; // Importar FormsModule
-import { Product } from '../../shared/models/product';  // Asegúrate de importar el modelo de producto
-import { ApiService } from '../../shared/services/api.service';  // Importar ApiService
+import { Product } from '../../shared/models/product';
+import { ApiService } from '../../shared/services/api.service';
+import { SHARED_MODULES } from '../../shared/modules/shared';
 
 @Component({
+  imports: SHARED_MODULES,
   selector: 'app-inventory',
-  imports: [CommonModule, FormsModule],
   templateUrl: './inventory.component.html',
 })
 export class InventoryComponent implements OnInit {
@@ -17,25 +16,39 @@ export class InventoryComponent implements OnInit {
     description: '',
     price: 0,
     quantity: 0,
-    imageUrl: '' // Añadir la propiedad 'imageUrl'
-  };  // Producto en blanco para agregar
+    imageUrl: '',
+  };
 
   constructor(private apiService: ApiService) { }
 
   ngOnInit() {
-    this.products = this.apiService.getProducts();
+    this.loadProducts();
+  }
+
+  loadProducts() {
+    this.apiService.getProducts().subscribe({
+      next: (data) => (this.products = data),
+      error: (err) => console.error('Error fetching products:', err),
+    });
   }
 
   addProduct() {
-    const newProduct = { ...this.newProduct, id: this.products.length + 1 };  // Asigna un ID único
-    this.apiService.addProduct(newProduct);
-    this.products.push(newProduct);  // Agregar el producto también a la lista
-    this.clearForm();  // Limpia el formulario después de agregar
+    this.apiService.addProduct(this.newProduct).subscribe({
+      next: (product) => {
+        this.products.push(product);
+        this.clearForm();
+      },
+      error: (err) => console.error('Error adding product:', err),
+    });
   }
 
   deleteProduct(id: number) {
-    this.apiService.deleteProduct(id);
-    this.products = this.products.filter(product => product.id !== id); // Eliminar el producto de la lista local
+    this.apiService.deleteProduct(id).subscribe({
+      next: () => {
+        this.products = this.products.filter((product) => product.id !== id);
+      },
+      error: (err) => console.error('Error deleting product:', err),
+    });
   }
 
   clearForm() {

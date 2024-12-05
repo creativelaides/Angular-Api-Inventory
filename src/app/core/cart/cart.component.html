@@ -1,3 +1,28 @@
 <h2>Your Cart</h2>
-<p>No items in the cart yet. Start shopping!</p>
-<a routerLink="/inventory" class="btn btn-secondary">Back to Inventory</a>
+<div *ngIf="cart.length === 0">
+  <p>No items in the cart yet. Start shopping!</p>
+  <a routerLink="/inventory" class="btn btn-secondary">Back to Inventory</a>
+</div>
+
+<table *ngIf="cart.length > 0" class="table table-striped">
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Quantity</th>
+      <th>Price</th>
+      <th>Total</th>
+      <th>Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let product of cart">
+      <td>{{ product.name }}</td>
+      <td>{{ product.quantity }}</td>
+      <td>{{ product.price | currency }}</td>
+      <td>{{ product.quantity * product.price | currency }}</td>
+      <td>
+        <button class="btn btn-danger btn-sm" (click)="removeFromCart(product)">Remove</button>
+      </td>
+    </tr>
+  </tbody>
+</table>
